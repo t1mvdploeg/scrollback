@@ -29,11 +29,12 @@ Below, `<kb>` is that folder and `<skill>` is this skill's base directory.
 <kb>/
   profile.md        who the user is, their projects, what they have installed
   links.tsv         <collection><TAB><url>, one post per line
+  collections.tsv   <collection><TAB><url of the saved collection>, so later runs know where to look
   raw/<id>/         downloads, caption, transcript, contact sheets
   items/<id>.md     one note per post, with a Design section when it shows a site, app or interface
   domains/N-<slug>.md
   OVERVIEW.md
-  STYLE.md          recurring style and libraries across the Design sections
+  STYLE.md          recurring style, style groups and libraries across the Design sections
 ```
 
 The id of a post is the last path segment of its URL.
@@ -45,18 +46,18 @@ Check the knowledge base and start at the first row that is true:
 | State | Phase |
 | --- | --- |
 | `profile.md` missing | 1. Profile |
-| `links.tsv` missing or empty, or the user brings new links | 2. Links |
+| `links.tsv` missing or empty, or the user brings new links or asks to add what they saved since | 2. Links |
 | a post in `links.tsv` has no `raw/<id>/` folder | 3. Fetch |
 | a fetched post (status `video` or `<n> img`) has no `items/<id>.md` | 4. Notes |
 | `OVERVIEW.md` missing, older than the newest note, or `check.py` fails | 5. Synthesis |
-| none of the above | Done: say so and offer to add links |
+| none of the above | Done: say so and offer to check the collections for newly saved posts |
 
 Tell the user which phase you start at and why. Read the phase's reference file before starting it. Between phases, give a one-line status (counts, failures) and continue unless something needs the user's decision.
 
 ## Phases
 
 1. **Profile.** Learn the user's projects, stack and installed skills; write `profile.md`; get it confirmed. Read `references/profile.md`.
-2. **Links.** Collect post URLs from a saved collection via Claude in Chrome, or take pasted links. Read `references/links.md`.
+2. **Links.** Collect post URLs from the saved collections via Claude in Chrome (the ones in `collections.tsv` on a later run), or take pasted links. Read `references/links.md`.
 3. **Fetch.** Run `uv run <skill>/scripts/fetch.py <kb>`. See below.
 4. **Notes.** One note per post, written by subagents in batches. Read `references/notes.md`.
 5. **Synthesis.** Domains, overview, project fit, skill ideas, `STYLE.md`; finish with `uv run <skill>/scripts/check.py <kb>`. Read `references/synthesis.md`.

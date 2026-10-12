@@ -83,7 +83,7 @@ Skills worth building from these posts. Not built; ask and I will build one.
 
 - <3-5 patterns: bait, duplicates, how much the user already has, what was missing>
 
-**Style.** <one line on the recurring look> See [STYLE.md](STYLE.md).
+**Style.** <one line on the recurring look and the biggest style groups> See [STYLE.md](STYLE.md).
 ```
 
 - "Do these first": 5 to 10 rows, ranked by value for this user.
@@ -110,6 +110,17 @@ Only when at least one note has a `## Design` section (`grep -l "^## Design" <kb
 - **Layout:** <…>
 - **Effects:** <…>
 
+## Style groups
+
+<One line: how many of the <N> posts fall into a group.>
+
+### <Name of the look> (<n> posts)
+
+<One or two lines: the colours, type, layout and effects that make it this look.>
+
+- **Posts:** [<maker>](items/<id>.md), …
+- **Take from it:** <what to reuse>
+
 ## Libraries that keep showing up
 
 | Library | Posts | How sure |
@@ -124,6 +135,9 @@ Only when at least one note has a `## Design` section (`grep -l "^## Design" <kb
 ```
 
 - Only patterns seen in at least two posts go under "Recurring style"; give the count.
+- "Recurring style" is what the saved designs share as a whole, one trait per line. "Style groups" are the distinct looks inside it: posts that share several traits at once (colours, type, layout and effects together), such as an Apple-like product page or a dark developer tool. A single trait is not a group.
+- A group needs at least three posts. Aim for 2 to 8 groups, most posts first. A post goes in at most one group, the one it fits best; posts that fit none stay out. Leave the section out when no group reaches three posts.
+- Name a group after a brand or known style only when the notes say so under "Looks like" or the traits make it plain, and then write "Apple-like", not "Apple". Otherwise name it by its traits.
 - Libraries: most posts first. A library only ever guessed from the look gets "guessed only"; never present a guess as fact.
 - Best examples: 3 to 8 posts, chosen for how clearly the design shows and how much can be reused, not for the claims in the post.
 

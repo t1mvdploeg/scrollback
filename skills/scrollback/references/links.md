@@ -8,12 +8,19 @@ Accept any mix of URLs, one per line or separated by spaces. Keep only links to 
 
 ## Option B: scroll a saved collection with Claude in Chrome
 
-1. Ask which collections to process. Have the user open the first one in Chrome while logged in: on Instagram, profile → Saved → the collection; on TikTok, profile → Favorites → Collections → the collection. Only collect from collections the user named.
-2. Use one visible tab. A background tab throttles timers and the scroll loop times out.
-3. Run this in the page. It keeps links in a `Set` while scrolling, because Instagram only renders the visible part of the grid, and stops when four scrolls in a row add nothing. Rerunning continues the same set.
+`<kb>/collections.tsv` remembers the collections: `<collection><TAB><url of the collection page>`, one per line. It is what makes "add my newly saved posts" a single step.
+
+1. Which collections:
+   - `collections.tsv` exists: go through every collection in it without asking. Add another one only when the user names it.
+   - It does not exist: ask which collections to process, find their pages (see below) and write them to `collections.tsv` with a slug each. If `links.tsv` already has slugs, reuse them for the same collections.
+   - Finding the pages, with the user logged in: on Instagram open the profile, then Saved; the collections are the links with `/saved/` in them. On TikTok open the profile, then Favourites, then Collections; they are the links with `/collection/`. Only collect from collections the user named.
+2. Use one visible tab. A background tab throttles timers and the scroll loop times out. Open the collection's URL in it.
+3. Run this in the page, with the ids already in `links.tsv` for `KNOWN` (the last path segment of each URL, space-separated). It keeps links in a `Set` while scrolling, because Instagram only renders the visible part of the grid, stops when four scrolls in a row add nothing, and returns only the links that are new. Rerunning continues the same set.
 
 ```js
 (async () => {
+  const known = new Set('KNOWN'.split(' '));
+  const id = u => u.replace(/\/$/, '').split('/').pop();
   const seen = new Set(window.__scrollback || []);
   const pick = () => document
     .querySelectorAll('a[href*="/reel/"], a[href*="/p/"], a[href*="/video/"], a[href*="/photo/"]')
@@ -21,23 +28,21 @@ Accept any mix of URLs, one per line or separated by spaces. Keep only links to 
   for (let still = 0, last = -1; still < 4; ) {
     pick();
     window.scrollTo(0, document.body.scrollHeight);
-    await new Promise(r => setTimeout(r, 1500));
+    await new Promise(r => setTimeout(r, 3000));
     still = seen.size === last ? still + 1 : 0;
     last = seen.size;
   }
   pick();
   window.__scrollback = [...seen];
-  return window.__scrollback.length;
+  const fresh = window.__scrollback.filter(u => !known.has(id(u)));
+  return { total: seen.size, known: seen.size - fresh.length, fresh: fresh.join('\n') };
 })()
 ```
 
-4. Read the links in batches of 50 with `window.__scrollback.slice(0, 50).join('\n')`. The tool may block output that looks like base64, such as Instagram shortcodes. Then return each URL with spaces between the characters and remove them afterwards:
+4. Check `total` against what the collection shows before trusting `fresh`.
+   - Instagram often stops at the first 12 posts: the script's scrolling does not make it load more. Scroll the page once with the mouse (a real scroll action, not JavaScript), then run step 3 again.
+   - A count that stays one or two short after that usually means deleted or private posts. Say so and go on.
+5. The tool may block output that looks like base64, such as Instagram shortcodes, and it cuts long output off. Returning only the new links keeps it short; if it is still blocked, return each URL with spaces between the characters and remove them afterwards: replace `fresh.join('\n')` with `fresh.map(u => u.split('').join(' ')).join(' | ')`.
+6. Append the new links to `links.tsv` with the collection slug. Instagram gives links with the account name in them (`/<account>/reel/<id>/`); write them as `https://www.instagram.com/reel/<id>/` (or `/p/<id>/`). The set is gone once the tab opens the next collection.
 
-```js
-window.__scrollback.slice(0, 50).map(u => u.split('').join(' ')).join(' | ')
-```
-
-5. Compare the count with what the collection shows. If it is lower, change `1500` to `3000` and run step 3 again.
-6. Append to `links.tsv` with the collection slug, then clear the set (`window.__scrollback = []`) before the next collection.
-
-Report the number of new links per collection.
+Report the number of new links per collection, and which collections had none.

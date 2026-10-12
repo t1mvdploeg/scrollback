@@ -47,6 +47,7 @@ Only when the post shows a website, app or interface; leave the whole section ou
 - Type: typefaces (named when visible, otherwise described: geometric sans, serif, mono), sizes and weights that stand out.
 - Layout: the structure (hero, grid, bento, sidebar, cards) and spacing.
 - Effects: animation, scroll effects, gradients, glass, 3D, cursor effects.
+- Looks like: the brand or known style it clearly resembles (Apple product page, Linear, brutalist, editorial magazine). "Nothing specific" when there is no clear match.
 - Libraries: <name> (on screen | guessed from the look), one line each. "None visible" when nothing can be named.
 
 ## Core claim

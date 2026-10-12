@@ -41,9 +41,9 @@ You need [ffmpeg](https://ffmpeg.org/download.html) and [uv](https://docs.astral
 | `items/<id>.md` | One note per post: what is explained, every tool, repo and link mentioned, the core claim, and how useful it really is. Posts that show a site or app also get a **Design** section: colours, type, layout, effects, and the likely libraries, marked as seen on screen or guessed from the look |
 | `domains/*.md` | Posts grouped by topic, the best source picked where posts overlap, and which tip fits which of your projects |
 | `OVERVIEW.md` | **Do these first** (the actions with the most value for you), **Skill ideas** (skills worth building from what you saved), and what stood out |
-| `STYLE.md` | The style your saved designs have in common, the libraries that keep showing up, and the best examples |
+| `STYLE.md` | The style your saved designs have in common, the distinct looks that come back within it (say, a run of Apple-like product pages), the libraries that keep showing up, and the best examples |
 
-Notes call out what posts like to hide: a link behind "comment X", undisclosed promotion, a transcript that is just music. Add newly saved posts later and only those are processed.
+Notes call out what posts like to hide: a link behind "comment X", undisclosed promotion, a transcript that is just music. Scrollback remembers which collections you chose, so later "add my newly saved posts" is enough, and only the new ones are processed.
 
 ## How it works
 
