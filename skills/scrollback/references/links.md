@@ -17,14 +17,16 @@ Accept any mix of URLs, one per line or separated by spaces. Keep only links to 
 2. Use one visible tab. A background tab throttles timers and the scroll loop times out. Open the collection's URL in it.
 3. Run this in the page, with the ids already in `links.tsv` for `KNOWN` (the last path segment of each URL, space-separated). It keeps links in a `Set` while scrolling, because Instagram only renders the visible part of the grid, stops when four scrolls in a row add nothing, and returns only the links that are new. Rerunning continues the same set.
 
+Keep the `await` in front: without it the tool returns `{}` before the loop ends. Links inside TikTok's notification panel (`data-e2e="inbox-…"`) are skipped; they point to other people's videos.
+
 ```js
-(async () => {
+await (async () => {
   const known = new Set('KNOWN'.split(' '));
   const id = u => u.replace(/\/$/, '').split('/').pop();
   const seen = new Set(window.__scrollback || []);
   const pick = () => document
     .querySelectorAll('a[href*="/reel/"], a[href*="/p/"], a[href*="/video/"], a[href*="/photo/"]')
-    .forEach(a => seen.add(a.href.split('?')[0]));
+    .forEach(a => { if (!a.closest('[data-e2e^="inbox"]')) seen.add(a.href.split('?')[0]); });
   for (let still = 0, last = -1; still < 4; ) {
     pick();
     window.scrollTo(0, document.body.scrollHeight);
