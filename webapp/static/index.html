@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Scrollback: turn saved posts into knowledge you can use.">
+  <title>Overview · Scrollback</title>
+  <script>
+    try { document.documentElement.dataset.theme = localStorage.getItem('scrollback-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); }
+    catch (_) { document.documentElement.dataset.theme = 'light'; }
+  </script>
+  <link rel="icon" href="mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <aside class="rail" aria-label="Workspace navigation">
+    <a class="brand" href="#overview" aria-label="Scrollback overview"><img class="brand-mark" src="mark.svg" width="38" height="38" alt=""><span class="brand-word">scrollback<span class="brand-dot">.</span></span></a>
+    <div class="workspace-label"><span class="workspace-dot" aria-hidden="true"></span> <span id="workspace-name">Scrollback</span></div>
+    <nav class="primary-nav" aria-label="Main navigation" id="navigation"></nav>
+    <div class="rail-collections"><p class="rail-caption">YOUR COLLECTIONS</p><nav id="collections" aria-label="Collections"></nav></div>
+    <div class="rail-footer"><div id="rail-note"></div><span class="rail-footnote">Made for a second look.</span></div>
+  </aside>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="breadcrumbs"><span>Workspace</span><span aria-hidden="true">/</span><span id="current-page">Overview</span></div>
+      <div class="topbar-actions"><button class="search-shortcut" id="find-post" type="button" aria-label="Find a post" aria-keyshortcuts="/"><span id="search-icon"></span><span>Find a post</span><kbd>/</kbd></button><button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode"></button></div>
+    </header>
+    <main id="main" tabindex="-1"><div class="page-content"><p class="quiet-note">Loading…</p></div></main>
+    <footer class="app-footer"><span>A knowledge base, not another feed.</span><span id="footer-note"></span></footer>
+  </div>
+  <div id="announcer" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+  <noscript><p class="noscript-message">Enable JavaScript to use Scrollback. No internet connection is needed.</p></noscript>
+</body>
+</html>

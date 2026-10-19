@@ -65,6 +65,17 @@ flowchart LR
 
 The first time, Claude asks where the knowledge base should live and remembers the answer in `~/.scrollback`; every later run adds to that same folder. Everything stays on your machine.
 
+## Browse it in a web app
+
+A small local web app shows your knowledge base: overview, posts with search and filters, one page per note, your style, and a form to add links. It needs nothing beyond uv and runs only on your machine.
+
+```
+uv run webapp/server.py <kb-folder>     # your knowledge base
+uv run webapp/server.py --demo          # a made-up one, to look around
+```
+
+Open http://127.0.0.1:8720. Adding links writes to `links.tsv`; processing them is still done by the skill (ask Claude Code to add your newly saved posts).
+
 ## What it does not do
 
 - It does not install or test the tools mentioned in posts. "Winner" means the best source, not the proven best tool.
