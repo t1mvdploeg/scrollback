@@ -4,7 +4,7 @@ Goal: one `domains/N-<slug>.md` per topic, an `OVERVIEW.md` and, when notes have
 
 ## 1. Domains
 
-- Read every note. With more than ~40 notes, have subagents return one line per note: `id | maker | title | tools | one-line verdict`.
+- Read every note. With more than ~40 notes, run `uv run <skill>/scripts/digest.py <kb>` first: one line per note (`id | maker | title | tools | first line of Usefulness`), far smaller than the notes. Read full notes only where the line is not enough.
 - Choose 4 to 10 domains from the content, ordered by relevance to the profile. A final "Other" domain is fine.
 - Every post goes in exactly one domain. When adding posts to an existing knowledge base, put them in the existing domains; add a domain only when at least three new posts fit none.
 
@@ -14,7 +14,7 @@ When posts cover the same thing, the better one:
 
 1. is concrete enough to follow (name, repo or command visible);
 2. does not hide the substance behind "comment X for the link";
-3. points to something that exists and is maintained. If `gh` is available, check repos with `gh api repos/<owner>/<repo> --jq '"\(.stargazers_count) \(.pushed_at) \(.archived)"'`; otherwise write "not checked";
+3. points to something that exists and is maintained. Always check every repo path in the notes, duplicates or not (read-only): `gh api repos/<owner>/<repo> --jq '"\(.stargazers_count) \(.pushed_at) \(.archived)"'`. Mark missing, archived and long-quiet repos in the domain files. Without `gh`, write "not checked";
 4. fits the profile.
 
 The tools are not installed or tested. "Winner" means best source. Say what was not checked, such as terms of service.
@@ -139,7 +139,10 @@ Only when at least one note has a `## Design` section (`grep -l "^## Design" <kb
 - A group needs at least three posts. Aim for 2 to 8 groups, most posts first. A post goes in at most one group, the one it fits best; posts that fit none stay out. Leave the section out when no group reaches three posts.
 - Name a group after a brand or known style only when the notes say so under "Looks like" or the traits make it plain, and then write "Apple-like", not "Apple". Otherwise name it by its traits.
 - Libraries: most posts first. A library only ever guessed from the look gets "guessed only"; never present a guess as fact.
+- One fast subagent can write the whole file. Afterwards check the counts (posts per pattern, group and library) against the notes yourself; they tend to be off by one or two.
 - Best examples: 3 to 8 posts, chosen for how clearly the design shows and how much can be reused, not for the claims in the post.
+
+When adding posts to an existing knowledge base, do not recount everything: add the new notes' counts to the existing ones in `STYLE.md`, and say in the final report that the counts were updated by hand.
 
 ## 6. Check and finish
 

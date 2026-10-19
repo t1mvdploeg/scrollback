@@ -19,8 +19,9 @@ Check these before phase 3 and tell the user what is missing. Never install anyt
 
 The knowledge base lives in one fixed folder, so every run adds to the same one. `~/.scrollback` holds its absolute path on one line.
 
-- `~/.scrollback` exists: use that folder. Do not ask again.
-- It does not exist: ask where the knowledge base should live (suggest `~/scrollback-kb`), create the folder and write its absolute path to `~/.scrollback`.
+- `~/.scrollback` exists and the folder is there: use it. Do not ask again.
+- It exists but the folder it names does not (moved or renamed): ask the user where the knowledge base is now, or search for a folder with `links.tsv` and `items/`, and update `~/.scrollback`. Never silently create a new empty folder.
+- `~/.scrollback` does not exist: ask where the knowledge base should live (suggest `~/scrollback-kb`), create the folder and write its absolute path to `~/.scrollback`.
 - The user wants it elsewhere: move the folder only if they ask, then update `~/.scrollback`.
 
 Below, `<kb>` is that folder and `<skill>` is this skill's base directory.
@@ -45,18 +46,19 @@ Check the knowledge base and start at the first row that is true:
 
 | State | Phase |
 | --- | --- |
-| `profile.md` missing | 1. Profile |
 | `links.tsv` missing or empty, or the user brings new links or asks to add what they saved since | 2. Links |
 | a post in `links.tsv` has no `raw/<id>/` folder | 3. Fetch |
 | a fetched post (status `video` or `<n> img`) has no `items/<id>.md` | 4. Notes |
 | `OVERVIEW.md` missing, older than the newest note, or `check.py` fails | 5. Synthesis |
 | none of the above | Done: say so and offer to check the collections for newly saved posts |
 
+`profile.md` is only needed for phase 5. If it is missing, run phase 1 before phase 5, or alongside the fetch; links, fetch and notes never wait for it.
+
 Tell the user which phase you start at and why. Read the phase's reference file before starting it. Between phases, give a one-line status (counts, failures) and continue unless something needs the user's decision.
 
 ## Phases
 
-1. **Profile.** Learn the user's projects, stack and installed skills; write `profile.md`; get it confirmed. Read `references/profile.md`.
+1. **Profile.** Learn the user's projects, stack and installed skills; write `profile.md`; get it confirmed before phase 5. Read `references/profile.md`.
 2. **Links.** Collect post URLs from the saved collections via Claude in Chrome (the ones in `collections.tsv` on a later run), or take pasted links. Read `references/links.md`.
 3. **Fetch.** Run `uv run <skill>/scripts/fetch.py <kb>`. See below.
 4. **Notes.** One note per post, written by subagents in batches. Read `references/notes.md`.

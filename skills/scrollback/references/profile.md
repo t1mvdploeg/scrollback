@@ -41,4 +41,4 @@ List projects active in the last 30 days first.
 
 ## Confirm
 
-Show the focus, the project names and the counts of skills and plugins. Ask what is wrong or missing. Do not start phase 2 before the user confirms. The user may edit the file later; phase 5 rereads it.
+Show the focus, the project names and the counts of skills and plugins. Ask what is wrong or missing. Phases 2 to 4 do not wait for the confirmation; phase 5 does. The user may edit the file later; phase 5 rereads it.

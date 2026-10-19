@@ -4,7 +4,7 @@ Goal: `<kb>/items/<id>.md` for every post that was fetched, in a fixed format th
 
 ## Batches
 
-Images fill the context fast, so subagents write the notes: batches of about 8 posts (4 for videos over three minutes), at most 4 subagents at a time, on a fast model when one is offered. Each gets the prompt below with its ids and writes the files itself. Afterwards check that every file exists and starts with `---`; rerun a batch for the ones that do not.
+Images fill the context fast, so subagents write the notes: batches of about 8 posts (4 for videos over three minutes), at most 4 subagents at a time, on a fast model when one is offered. Batches of 8 on the fastest model, four at a time, worked well. Each gets the prompt below with its ids and writes the files itself. Afterwards check that every file exists and starts with `---`; rerun a batch for the ones that do not.
 
 Posts whose fetch status was `FAILED` get no note. List them for the user at the end of the run.
 

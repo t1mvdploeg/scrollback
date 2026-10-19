@@ -40,8 +40,8 @@ Accept any mix of URLs, one per line or separated by spaces. Keep only links to 
 ```
 
 4. Check `total` against what the collection shows before trusting `fresh`.
-   - Instagram often stops at the first 12 posts: the script's scrolling does not make it load more. Scroll the page once with the mouse (a real scroll action, not JavaScript), then run step 3 again.
-   - A count that stays one or two short after that usually means deleted or private posts. Say so and go on.
+   - Instagram stops loading at the first 12 posts when only `window.scrollTo` scrolls. Do one real scroll first (Claude in Chrome's scroll action on the page), then run step 3 with 3000 ms.
+   - A count one or two too high after repeating means deleted posts. Go on.
 5. The tool may block output that looks like base64, such as Instagram shortcodes, and it cuts long output off. Returning only the new links keeps it short; if it is still blocked, return each URL with spaces between the characters and remove them afterwards: replace `fresh.join('\n')` with `fresh.map(u => u.split('').join(' ')).join(' | ')`.
 6. Append the new links to `links.tsv` with the collection slug. Instagram gives links with the account name in them (`/<account>/reel/<id>/`); write them as `https://www.instagram.com/reel/<id>/` (or `/p/<id>/`). The set is gone once the tab opens the next collection.
 
