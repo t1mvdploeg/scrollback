@@ -87,7 +87,7 @@ Skills worth building from these posts. Not built; ask and I will build one.
 ```
 
 - "Do these first": 5 to 10 rows, ranked by value for this user.
-- Skill ideas: 2 to 5, each backed by at least two posts, or one post plus a pattern visible in the profile. Skip anything already in the Installed list.
+- Skill ideas: 2 to 5, each backed by at least two posts, or one post plus a pattern visible in the profile. Skip anything already in the Installed list or on its Declined line.
 - Domain files link with `../items/<id>.md`, the overview with `items/<id>.md`. A domain's content lives only in its file, not repeated in the overview.
 
 - Leave out the **Style** line when there is no `STYLE.md`.

@@ -32,6 +32,7 @@ Updated <YYYY-MM-DD>. Confirmed by the user.
 ## Installed
 Skills: <comma-separated>
 Plugins: <comma-separated>
+Declined: <skill ideas the user turned down; omit when none, keep when updating the profile>
 
 ## Preferences
 - <only what changes advice, e.g. "prefers CLIs over MCP servers", "avoids paid tools">
