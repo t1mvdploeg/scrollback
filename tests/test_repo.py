@@ -2,6 +2,7 @@
 import json
 import os
 import re
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -17,7 +18,9 @@ LEAKS = [
 
 def repo_texts():
     me = Path(__file__).resolve()
-    for p in ROOT.rglob("*"):
+    # only what can reach GitHub: tracked plus untracked-but-not-ignored files
+    names = subprocess.run(["git", "ls-files", "-co", "--exclude-standard"], cwd=ROOT, capture_output=True, text=True, check=True).stdout.splitlines()
+    for p in (ROOT / n for n in names):
         if p.is_file() and not SKIP & set(p.relative_to(ROOT).parts) and p != me:
             data = p.read_bytes()
             if b"\0" in data:  # binary (images): random bytes give false matches
